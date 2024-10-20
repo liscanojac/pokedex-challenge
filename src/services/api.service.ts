@@ -33,6 +33,8 @@ export const apiService = {
     return { pokemons, nextPage }
   },
   getIdFromUrl(url: string): number {
-    return Number(url.slice(-2, -1))
+    const urlParts = url.split('/')
+    if (!urlParts[urlParts.length - 1]) urlParts.pop()
+    return Number(urlParts.pop())
   },
 }
