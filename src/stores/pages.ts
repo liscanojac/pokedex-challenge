@@ -4,7 +4,7 @@ export const usePagesStore = defineStore('pages', {
   state: () => {
     return {
       page: 0,
-      lastPageReached: false,
+      lastPage: false,
     }
   },
   getters: {
@@ -14,10 +14,10 @@ export const usePagesStore = defineStore('pages', {
   },
   actions: {
     nextPage() {
-      if (!this.lastPageReached) this.page++
+      if (!this.lastPage) this.page++
     },
-    setLastPageReached() {
-      this.lastPageReached = true
+    lastPageReached() {
+      this.lastPage = true
     },
   },
 })
