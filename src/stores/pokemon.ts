@@ -1,4 +1,4 @@
-import type { PokemonState } from '@/interfaces/pokemon'
+import type { PokemonBase, PokemonState } from '@/interfaces/pokemon'
 import { defineStore } from 'pinia'
 import { usePagesStore } from './pages'
 import { apiService } from '@/services/api.service'
@@ -8,8 +8,8 @@ export const usePokemonStore = defineStore('pokemon', {
   state: (): PokemonState => {
     return {
       loading: false,
-      pokemon: [],
-      favoritePokemon: [],
+      pokemons: [],
+      favoritePokemons: {},
       pokemonDetails: {
         id: 0,
         name: '',
@@ -27,15 +27,23 @@ export const usePokemonStore = defineStore('pokemon', {
       },
     }
   },
+  getters: {
+    getFavoritePokemons(): Array<PokemonBase> {
+      return Object.values(this.favoritePokemons)
+    },
+    getPokemons(): Array<PokemonBase> {
+      return this.pokemons
+    },
+  },
   actions: {
     async getPokemon() {
       const pages = usePagesStore()
       const dataFetched: DataFetched = await apiService.fetchPokemons(
         pages.getCurrentPage,
       )
-      this.pokemon = dataFetched.pokemons
+      this.pokemons = dataFetched.pokemons
 
-      if (!dataFetched.nextPage) pages.setLastPageReached()
+      if (!dataFetched.nextPage) pages.lastPageReached()
       pages.nextPage()
     },
     startLoading() {
@@ -43,6 +51,26 @@ export const usePokemonStore = defineStore('pokemon', {
     },
     stopLoading() {
       this.loading = false
+    },
+    toggleFavorite(id: number) {
+      const pokemonToToggle = this.pokemons.find(pokemon => pokemon.id === id)
+      if (pokemonToToggle) {
+        pokemonToToggle.favorite = !pokemonToToggle.favorite
+        if (pokemonToToggle.favorite === true) {
+          this.addToFavorites(pokemonToToggle)
+        } else {
+          this.removeFromFavorites(pokemonToToggle.id)
+        }
+      }
+    },
+    addToFavorites(pokemon: PokemonBase) {
+      this.favoritePokemons[pokemon.id] = pokemon
+    },
+    removeFromFavorites(id: number) {
+      delete this.favoritePokemons[id]
+    },
+    isFavorite(id: number): boolean {
+      return !!this.favoritePokemons[id]
     },
   },
 })
