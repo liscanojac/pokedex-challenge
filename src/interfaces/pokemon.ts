@@ -13,12 +13,12 @@ export interface Pokemon extends PokemonBase {
 
 export interface PokemonState {
   loading: boolean
-  pokemon: Array<PokemonBase>
-  favoritePokemon: FavoritePokemon
+  pokemons: Array<PokemonBase>
+  favoritePokemons: FavoritePokemon
   pokemonDetails: Pokemon
 }
 
-interface FavoritePokemon {
+export interface FavoritePokemon {
   [id: number]: PokemonBase
 }
 
