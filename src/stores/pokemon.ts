@@ -8,6 +8,7 @@ export const usePokemonStore = defineStore('pokemon', {
   state: (): PokemonState => {
     return {
       loading: false,
+      favoriteSelected: false,
       pokemons: [],
       favoritePokemons: {},
       pokemonDetails: {
@@ -31,9 +32,6 @@ export const usePokemonStore = defineStore('pokemon', {
     getFavoritePokemons(): Array<PokemonBase> {
       return Object.values(this.favoritePokemons)
     },
-    getPokemons(): Array<PokemonBase> {
-      return this.pokemons
-    },
   },
   actions: {
     async getPokemon() {
@@ -41,7 +39,7 @@ export const usePokemonStore = defineStore('pokemon', {
       const dataFetched: DataFetched = await apiService.fetchPokemons(
         pages.getCurrentPage,
       )
-      this.pokemons = dataFetched.pokemons
+      this.pokemons = this.pokemons.concat(dataFetched.pokemons)
 
       if (!dataFetched.nextPage) pages.lastPageReached()
       pages.nextPage()
@@ -71,6 +69,12 @@ export const usePokemonStore = defineStore('pokemon', {
     },
     isFavorite(id: number): boolean {
       return !!this.favoritePokemons[id]
+    },
+    showAllPokemon() {
+      this.favoriteSelected = false
+    },
+    showFavoritePokemons() {
+      this.favoriteSelected = true
     },
   },
 })
