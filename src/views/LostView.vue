@@ -38,9 +38,6 @@ export default defineComponent({
     }
   },
   methods: {
-    test() {
-      console.log('test')
-    },
     goHome() {
       router.push({ path: '/' })
     },

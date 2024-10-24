@@ -44,7 +44,6 @@ export default defineComponent({
         this.pokemonSelection === 'all' &&
         this.getCurrentPage > 0
       ) {
-        console.log(this.getCurrentPage)
         this.startLoading()
         if (!this.apiCallSuccess) await this.getPokemon()
         this.resetAPiCallSuccess()
