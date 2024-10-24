@@ -5,11 +5,11 @@
     </div>
     <Spinner
       v-if="isLoading && pokemonsToShow.length && pokemonSelection === 'all'"
-      spinner-classes="w-10 mb-28 mt-5"
+      spinner-classes="w-10 mt-5"
     >
       <img src="../assets/Loader.png" alt="loading-spinner" />
     </Spinner>
-    <div ref="target"></div>
+    <div ref="target" class="mb-28"></div>
   </div>
 </template>
 
