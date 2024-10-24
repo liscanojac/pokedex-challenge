@@ -19,5 +19,9 @@ export const usePagesStore = defineStore('pages', {
     lastPageReached() {
       this.lastPage = true
     },
+    resetPages() {
+      this.page = 0
+      this.lastPage = false
+    },
   },
 })
