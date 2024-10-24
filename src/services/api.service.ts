@@ -1,5 +1,10 @@
-import type { DataFetched, ResultData } from '@/interfaces/apiService'
-import type { PokemonBase } from '@/interfaces/pokemon'
+import type {
+  DataFetched,
+  PokemonFetched,
+  ResultData,
+} from '@/interfaces/apiService'
+import type { Pokemon } from '@/interfaces/pokemon'
+// import type { PokemonBase } from '@/interfaces/pokemon'
 
 const defaultPokemonLimit = 20
 export const apiService = {
@@ -19,22 +24,57 @@ export const apiService = {
     const data = await response.json()
     const results: Array<ResultData> = data.results
     const nextPage: boolean = !!data.next
-    const pokemons: Array<PokemonBase> = []
 
-    for (let i = 0; i < results.length; i++) {
-      const pokemon: PokemonBase = {
-        name: results[i].name,
-        id: this.getIdFromUrl(results[i].url),
-        favorite: false,
-      }
-      pokemons.push(pokemon)
-    }
-
-    return { pokemons, nextPage }
+    return { results, nextPage, success: response.ok }
   },
   getIdFromUrl(url: string): number {
     const urlParts = url.split('/')
     if (!urlParts[urlParts.length - 1]) urlParts.pop()
     return Number(urlParts.pop())
+  },
+  async getPokemonDetails(name: string): Promise<PokemonFetched> {
+    const url = `${import.meta.env.VITE_API_URL}/${name}`
+
+    const response = await fetch(url)
+
+    if (!response.ok) {
+      console.error(`Response status: ${response.status}`)
+      return {
+        success: false,
+        result: undefined,
+      }
+    }
+    const data = await response.json()
+
+    const pokemon: Pokemon = {
+      id: data.id,
+      name: data.name,
+      favorite: false,
+      image: {
+        front_default: data.sprites.other['official-artwork'].front_default,
+      },
+      height: data.height,
+      weight: data.weight,
+      types: data.types.map(
+        (type: {
+          slot: number
+          type: {
+            name: string
+            url: string
+          }
+        }) => {
+          return {
+            id: type.slot,
+            name: type.type.name,
+            url: type.type.url,
+          }
+        },
+      ),
+    }
+
+    return {
+      success: true,
+      result: pokemon,
+    }
   },
 }
