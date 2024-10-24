@@ -5,7 +5,7 @@
         <Btn
           pill
           btn-title="All"
-          :button-class="getFavoriteClasses(!favoriteSelected)"
+          :button-class="getFavoriteClasses('all')"
           :click-action="() => showAllPokemon()"
         >
           <template #iconLeft>
@@ -17,7 +17,7 @@
         <Btn
           pill
           btn-title="Favorites"
-          :button-class="getFavoriteClasses(favoriteSelected)"
+          :button-class="getFavoriteClasses('favorite')"
           :click-action="() => showFavoritePokemons()"
         >
           <template #iconLeft>
@@ -49,12 +49,14 @@ export default defineComponent({
     }
   },
   computed: {
-    ...mapState(usePokemonStore, ['favoriteSelected']),
+    ...mapState(usePokemonStore, ['pokemonSelection']),
   },
   methods: {
     ...mapActions(usePokemonStore, ['showAllPokemon', 'showFavoritePokemons']),
-    getFavoriteClasses(isFav: boolean): string {
-      return isFav ? 'bg-primary-red' : 'bg-primary-grey'
+    getFavoriteClasses(selection: string): string {
+      return this.pokemonSelection === selection
+        ? 'bg-primary-red hover:bg-dark-red'
+        : 'bg-primary-grey hover:bg-dark-grey'
     },
   },
 })
