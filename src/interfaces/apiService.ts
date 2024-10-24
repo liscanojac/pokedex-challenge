@@ -1,4 +1,4 @@
-import type { PokemonBase } from './pokemon'
+import type { Pokemon } from './pokemon'
 
 export interface ResultData {
   name: string
@@ -7,5 +7,18 @@ export interface ResultData {
 
 export interface DataFetched {
   nextPage: boolean
-  pokemons: Array<PokemonBase>
+  results: Array<ResultData>
+  success: boolean
+}
+
+export type PokemonFetched = PokemonFetchedSuccess | PokemonFetchedFailure
+
+interface PokemonFetchedSuccess {
+  success: true
+  result: Pokemon
+}
+
+interface PokemonFetchedFailure {
+  success: false
+  result: undefined
 }
