@@ -65,7 +65,8 @@ export default defineComponent({
   },
   data() {
     return {
-      defaultClasses: 'flex items-center justify-center group m-1 rounded-full',
+      defaultClasses:
+        'flex items-center justify-center group m-1 rounded-full focus:outline-none',
     }
   },
 })
