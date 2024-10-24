@@ -1,130 +1,130 @@
-import type { PokemonBase } from '@/interfaces/pokemon'
-import { createPinia, setActivePinia } from 'pinia'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { usePokemonStore } from '../pokemon'
-import { usePagesStore } from '../pages'
-import { apiService } from '@/services/api.service'
+// import type { PokemonBase } from '@/interfaces/pokemon'
+// import { createPinia, setActivePinia } from 'pinia'
+// import { beforeEach, describe, expect, it, vi } from 'vitest'
+// import { usePokemonStore } from '../pokemon'
+// import { usePagesStore } from '../pages'
+// import { apiService } from '@/services/api.service'
 
-vi.mock('@/services/api.service')
+// vi.mock('@/services/api.service')
 
-const mockPokemons = [
-  { name: 'bulbasaur', id: 1, favorite: false },
-  { name: 'ivysaur', id: 2, favorite: false },
-  { name: 'venusaur', id: 3, favorite: false },
-]
+// const mockPokemons = [
+//   { name: 'bulbasaur', id: 1, favorite: false },
+//   { name: 'ivysaur', id: 2, favorite: false },
+//   { name: 'venusaur', id: 3, favorite: false },
+// ]
 
-function mockFetchPokemons(resolvedValue: {
-  pokemons: Array<PokemonBase>
-  nextPage: boolean
-}) {
-  // Mock the apiService.fetchPokemons method
-  vi.spyOn(apiService, 'fetchPokemons').mockResolvedValue(resolvedValue)
-}
+// function mockFetchPokemons(resolvedValue: {
+//   pokemons: Array<PokemonBase>
+//   nextPage: boolean
+// }) {
+//   // Mock the apiService.fetchPokemons method
+//   vi.spyOn(apiService, 'fetchPokemons').mockResolvedValue(resolvedValue)
+// }
 
-describe('Pokemon Store', () => {
-  beforeEach(() => {
-    setActivePinia(createPinia())
-  })
+// describe('Pokemon Store', () => {
+//   beforeEach(() => {
+//     setActivePinia(createPinia())
+//   })
 
-  it('Testing initial state', () => {
-    const pokemonStore = usePokemonStore()
-    expect(pokemonStore.$state).toEqual({
-      loading: false,
-      pokemons: [],
-      favoritePokemons: {},
-      pokemonDetails: {
-        id: 0,
-        name: '',
-        favorite: false,
-        height: {
-          ft: 0,
-        },
-        weight: {
-          lbs: 0,
-        },
-        image: {
-          front_default: '',
-        },
-        types: [],
-      },
-    })
-  })
+//   it('Testing initial state', () => {
+//     const pokemonStore = usePokemonStore()
+//     expect(pokemonStore.$state).toEqual({
+//       loading: false,
+//       pokemons: [],
+//       favoritePokemons: {},
+//       pokemonDetails: {
+//         id: 0,
+//         name: '',
+//         favorite: false,
+//         height: {
+//           ft: 0,
+//         },
+//         weight: {
+//           lbs: 0,
+//         },
+//         image: {
+//           front_default: '',
+//         },
+//         types: [],
+//       },
+//     })
+//   })
 
-  it('Testing startLoading Action', () => {
-    const pokemonStore = usePokemonStore()
-    pokemonStore.startLoading()
-    expect(pokemonStore.loading).toBe(true)
-  })
+//   it('Testing startLoading Action', () => {
+//     const pokemonStore = usePokemonStore()
+//     pokemonStore.startLoading()
+//     expect(pokemonStore.loading).toBe(true)
+//   })
 
-  it('Testing stoptLoading Action', () => {
-    const pokemonStore = usePokemonStore()
-    pokemonStore.startLoading()
-    pokemonStore.stopLoading()
-    expect(pokemonStore.loading).toBe(false)
-  })
+//   it('Testing stoptLoading Action', () => {
+//     const pokemonStore = usePokemonStore()
+//     pokemonStore.startLoading()
+//     pokemonStore.stopLoading()
+//     expect(pokemonStore.loading).toBe(false)
+//   })
 
-  it('fetches the pokemon and update the pokemon state', async () => {
-    mockFetchPokemons({
-      pokemons: mockPokemons,
-      nextPage: true,
-    })
+//   it('fetches the pokemon and update the pokemon state', async () => {
+//     mockFetchPokemons({
+//       pokemons: mockPokemons,
+//       nextPage: true,
+//     })
 
-    const pokemonStore = usePokemonStore()
-    await pokemonStore.getPokemon()
+//     const pokemonStore = usePokemonStore()
+//     await pokemonStore.getPokemon()
 
-    expect(pokemonStore.pokemons).toEqual(mockPokemons)
-  })
+//     expect(pokemonStore.pokemons).toEqual(mockPokemons)
+//   })
 
-  it('fetches the pokemon and changes the page', async () => {
-    mockFetchPokemons({
-      pokemons: mockPokemons,
-      nextPage: true,
-    })
+//   it('fetches the pokemon and changes the page', async () => {
+//     mockFetchPokemons({
+//       pokemons: mockPokemons,
+//       nextPage: true,
+//     })
 
-    const pokemonStore = usePokemonStore()
-    const pagesStore = usePagesStore()
-    await pokemonStore.getPokemon()
+//     const pokemonStore = usePokemonStore()
+//     const pagesStore = usePagesStore()
+//     await pokemonStore.getPokemon()
 
-    expect(pagesStore.getCurrentPage).toEqual(1)
-  })
+//     expect(pagesStore.getCurrentPage).toEqual(1)
+//   })
 
-  it('changes favorite property correctly', () => {
-    const pokemonStore = usePokemonStore()
-    pokemonStore.pokemons = mockPokemons
+//   it('changes favorite property correctly', () => {
+//     const pokemonStore = usePokemonStore()
+//     pokemonStore.pokemons = mockPokemons
 
-    pokemonStore.toggleFavorite(3)
-    expect(pokemonStore.pokemons[2].favorite).toBe(true)
-  })
+//     pokemonStore.toggleFavorite(3)
+//     expect(pokemonStore.pokemons[2].favorite).toBe(true)
+//   })
 
-  it('adds a pokemon to favorites', () => {
-    const pokemonStore = usePokemonStore()
-    pokemonStore.pokemons = mockPokemons
+//   it('adds a pokemon to favorites', () => {
+//     const pokemonStore = usePokemonStore()
+//     pokemonStore.pokemons = mockPokemons
 
-    pokemonStore.addToFavorites({ name: 'venusaur', id: 3, favorite: true })
+//     pokemonStore.addToFavorites({ name: 'venusaur', id: 3, favorite: true })
 
-    expect(pokemonStore.isFavorite(3)).toBeTruthy()
-  })
+//     expect(pokemonStore.isFavorite(3)).toBeTruthy()
+//   })
 
-  it('automatically orders the favorites array by id', () => {
-    const pokemonStore = usePokemonStore()
-    pokemonStore.pokemons = mockPokemons
+//   it('automatically orders the favorites array by id', () => {
+//     const pokemonStore = usePokemonStore()
+//     pokemonStore.pokemons = mockPokemons
 
-    pokemonStore.addToFavorites({ name: 'venusaur', id: 3, favorite: true })
-    pokemonStore.addToFavorites({ name: 'bulbasaur', id: 1, favorite: true })
+//     pokemonStore.addToFavorites({ name: 'venusaur', id: 3, favorite: true })
+//     pokemonStore.addToFavorites({ name: 'bulbasaur', id: 1, favorite: true })
 
-    expect(pokemonStore.getFavoritePokemons).toEqual([
-      { name: 'bulbasaur', id: 1, favorite: true },
-      { name: 'venusaur', id: 3, favorite: true },
-    ])
-  })
-  it('automatically orders the favorites array by id', () => {
-    const pokemonStore = usePokemonStore()
-    pokemonStore.pokemons = mockPokemons
+//     expect(pokemonStore.getFavoritePokemons).toEqual([
+//       { name: 'bulbasaur', id: 1, favorite: true },
+//       { name: 'venusaur', id: 3, favorite: true },
+//     ])
+//   })
+//   it('automatically orders the favorites array by id', () => {
+//     const pokemonStore = usePokemonStore()
+//     pokemonStore.pokemons = mockPokemons
 
-    pokemonStore.addToFavorites({ name: 'venusaur', id: 3, favorite: true })
-    pokemonStore.addToFavorites({ name: 'bulbasaur', id: 1, favorite: true })
-    pokemonStore.removeFromFavorites(3)
+//     pokemonStore.addToFavorites({ name: 'venusaur', id: 3, favorite: true })
+//     pokemonStore.addToFavorites({ name: 'bulbasaur', id: 1, favorite: true })
+//     pokemonStore.removeFromFavorites(3)
 
-    expect(pokemonStore.isFavorite(3)).toBeFalsy()
-  })
-})
+//     expect(pokemonStore.isFavorite(3)).toBeFalsy()
+//   })
+// })

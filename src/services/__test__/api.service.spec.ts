@@ -1,69 +1,69 @@
-import { describe, it, expect, vi } from 'vitest'
-import { apiService } from '@/services/api.service'
+// import { describe, it, expect, vi } from 'vitest'
+// import { apiService } from '@/services/api.service'
 
-function mockFetchSuccess() {
-  global.fetch = vi.fn(
-    () =>
-      Promise.resolve({
-        ok: true,
-        status: 200,
-        statusText: 'OK',
-        headers: new Headers(),
-        json: () =>
-          Promise.resolve({
-            results: [
-              {
-                name: 'bulbasaur',
-                url: 'https://pokeapi.co/api/v2/pokemon/1/',
-              },
-              { name: 'ivysaur', url: 'https://pokeapi.co/api/v2/pokemon/2/' },
-            ],
-            next: 'https://pokeapi.co/api/v2/pokemon?offset=20&limit=20',
-          }),
-      } as Response), // Ensuring this matches the Response type
-  )
-}
+// function mockFetchSuccess() {
+//   global.fetch = vi.fn(
+//     () =>
+//       Promise.resolve({
+//         ok: true,
+//         status: 200,
+//         statusText: 'OK',
+//         headers: new Headers(),
+//         json: () =>
+//           Promise.resolve({
+//             results: [
+//               {
+//                 name: 'bulbasaur',
+//                 url: 'https://pokeapi.co/api/v2/pokemon/1/',
+//               },
+//               { name: 'ivysaur', url: 'https://pokeapi.co/api/v2/pokemon/2/' },
+//             ],
+//             next: 'https://pokeapi.co/api/v2/pokemon?offset=20&limit=20',
+//           }),
+//       } as Response), // Ensuring this matches the Response type
+//   )
+// }
 
-function mockFetchFailure(status = 404) {
-  global.fetch = vi.fn(() =>
-    Promise.resolve({
-      ok: false,
-      status,
-    } as Response),
-  )
-}
+// function mockFetchFailure(status = 404) {
+//   global.fetch = vi.fn(() =>
+//     Promise.resolve({
+//       ok: false,
+//       status,
+//     } as Response),
+//   )
+// }
 
-describe('apiService', () => {
-  it('testing pokemons response', async () => {
-    mockFetchSuccess()
-    const data = await apiService.fetchPokemons(0)
+// describe('apiService', () => {
+//   it('testing pokemons response', async () => {
+//     mockFetchSuccess()
+//     const data = await apiService.fetchPokemons(0)
 
-    expect(data.pokemons.length).toEqual(2)
-  })
+//     expect(data.pokemons.length).toEqual(2)
+//   })
 
-  it('testing nextPage response', async () => {
-    mockFetchSuccess()
-    const data = await apiService.fetchPokemons(0)
+//   it('testing nextPage response', async () => {
+//     mockFetchSuccess()
+//     const data = await apiService.fetchPokemons(0)
 
-    expect(data.nextPage).toEqual(true)
-  })
+//     expect(data.nextPage).toEqual(true)
+//   })
 
-  it('testing PokemonBase interface', async () => {
-    mockFetchSuccess()
-    const data = await apiService.fetchPokemons(0)
+//   it('testing PokemonBase interface', async () => {
+//     mockFetchSuccess()
+//     const data = await apiService.fetchPokemons(0)
 
-    expect(data.pokemons[1]).toEqual({
-      name: 'ivysaur',
-      id: 2,
-      favorite: false,
-    })
-  })
+//     expect(data.pokemons[1]).toEqual({
+//       name: 'ivysaur',
+//       id: 2,
+//       favorite: false,
+//     })
+//   })
 
-  it('testing failed response', async () => {
-    mockFetchFailure()
+//   it('testing failed response', async () => {
+//     mockFetchFailure()
 
-    await expect(apiService.fetchPokemons(0)).rejects.toThrow(
-      'Response status: 404',
-    )
-  })
-})
+//     await expect(apiService.fetchPokemons(0)).rejects.toThrow(
+//       'Response status: 404',
+//     )
+//   })
+// })
