@@ -1,7 +1,7 @@
 import { createPinia, setActivePinia } from 'pinia'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { usePokemonStore } from '../pokemon'
-import type { PokemonBase } from '@/interfaces/pokemon'
+import type { Pokemon, PokemonBase, PokemonState } from '@/interfaces/pokemon'
 import { usePagesStore } from '../pages'
 
 function mockFetchSuccess() {
@@ -47,6 +47,51 @@ const getPokemonsMock: Array<PokemonBase> = [
   },
 ]
 
+const pokemonDetailsMocked: Pokemon = {
+  id: 555,
+  name: 'testPokemon',
+  favorite: false,
+  height: {
+    ft: 20,
+  },
+  weight: {
+    lbs: 10,
+  },
+  image: {
+    front_default: 'image',
+  },
+  types: [
+    {
+      id: '1',
+      name: 'testType',
+      url: 'typeUrl',
+    },
+  ],
+}
+
+const initialState: PokemonState = {
+  loading: false,
+  apiCallSuccess: false,
+  pokemonSelection: 'all',
+  pokemons: [],
+  favoritePokemons: {},
+  pokemonDetails: {
+    id: 0,
+    name: '',
+    favorite: false,
+    height: {
+      ft: 0,
+    },
+    weight: {
+      lbs: 0,
+    },
+    image: {
+      front_default: '',
+    },
+    types: [],
+  },
+}
+
 describe('Pokemon Store', () => {
   beforeEach(() => {
     setActivePinia(createPinia())
@@ -54,28 +99,7 @@ describe('Pokemon Store', () => {
 
   it('Testing initial state', () => {
     const pokemonStore = usePokemonStore()
-    expect(pokemonStore.$state).toEqual({
-      loading: false,
-      apiCallSuccess: false,
-      pokemonSelection: 'all',
-      pokemons: [],
-      favoritePokemons: {},
-      pokemonDetails: {
-        id: 0,
-        name: '',
-        favorite: false,
-        height: {
-          ft: 0,
-        },
-        weight: {
-          lbs: 0,
-        },
-        image: {
-          front_default: '',
-        },
-        types: [],
-      },
-    })
+    expect(pokemonStore.$state).toEqual(initialState)
   })
 
   it('Testing startLoading Action', () => {
@@ -155,5 +179,43 @@ describe('Pokemon Store', () => {
     pokemonStore.removeFromFavorites(3)
 
     expect(pokemonStore.isFavorite(3)).toBeFalsy()
+  })
+
+  it('succesfully clear pokemon details', () => {
+    const pokemonStore = usePokemonStore()
+    pokemonStore.pokemonDetails = pokemonDetailsMocked
+    pokemonStore.clearPokemonDetails()
+
+    expect(pokemonStore.pokemonDetails).toEqual(initialState.pokemonDetails)
+  })
+
+  it('succesfully clear pokemons', () => {
+    const pokemonStore = usePokemonStore()
+    pokemonStore.pokemons = getPokemonsMock
+
+    pokemonStore.clearPokemons()
+    expect(pokemonStore.pokemons).toEqual(initialState.pokemons)
+  })
+
+  it('succesfully changes the selection state', () => {
+    const pokemonStore = usePokemonStore()
+
+    pokemonStore.showFavoritePokemons()
+    expect(pokemonStore.pokemonSelection).toEqual('favorite')
+  })
+
+  it('starts loading', () => {
+    const pokemonStore = usePokemonStore()
+
+    pokemonStore.startLoading()
+    expect(pokemonStore.loading).toBeTruthy()
+  })
+
+  it('stops loading', () => {
+    const pokemonStore = usePokemonStore()
+
+    pokemonStore.startLoading()
+    pokemonStore.stopLoading()
+    expect(pokemonStore.loading).toBeFalsy()
   })
 })
