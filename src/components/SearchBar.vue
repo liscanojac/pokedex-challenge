@@ -55,7 +55,7 @@ export default defineComponent({
     async search() {
       if (this.searchInput) {
         this.startLoading()
-        await this.searchPokemon(this.searchInput)
+        await this.searchPokemon(this.searchInput.toLowerCase())
         this.searchInput = ''
         this.stopLoading()
         if (!this.apiCallSuccess) router.push({ path: '/lost' })
