@@ -67,4 +67,10 @@ describe('apiService', () => {
       'Response status: 404',
     )
   })
+
+  it('testing getIdFromUrl', () => {
+    expect(
+      apiService.getIdFromUrl('https://pokeapi.co/api/v2/pokemon/234/'),
+    ).toBe(234)
+  })
 })
