@@ -120,7 +120,6 @@ describe('Pokemon Store', () => {
 
     const pokemonStore = usePokemonStore()
     await pokemonStore.getPokemon()
-    console.log(pokemonStore.pokemons)
     expect(pokemonStore.pokemons).toEqual(getPokemonsMock)
   })
 
