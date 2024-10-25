@@ -60,7 +60,7 @@ export default defineComponent({
       homeTitle: 'Welcome to Pokédex',
       homeMessage:
         'The digital encyclopedia created by Professor Oak is an invaluable tool to Trainers in the Pokémon world.',
-      btnMsg: 'GetStarted',
+      btnMsg: 'Get Started',
     }
   },
   methods: {
