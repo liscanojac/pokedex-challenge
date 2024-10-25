@@ -32,7 +32,6 @@ export default defineComponent({
   },
   async created() {
     this.startLoading()
-    console.log(import.meta.env.VITE_API_URL)
     if (!this.apiCallSuccess) await this.showAllPokemon()
     this.resetAPiCallSuccess()
     this.stopLoading()
