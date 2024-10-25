@@ -100,6 +100,8 @@ This proyecto has been developed and deployed as part of a technical challenge i
 
 Clone this repo from `master` branch
 
+Set on the root folder of the proyect an `.env` file with the following variable: `VITE_API_URL="https://pokeapi.co/api/v2/pokemon"`
+
 Then execute on your terminal:
 
 ```
