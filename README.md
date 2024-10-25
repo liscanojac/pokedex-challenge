@@ -1,45 +1,125 @@
-# pokedex-app
+# Pokedex Challenge App
 
-This template should help get you started developing with Vue 3 in Vite.
+This project consists of a SPA (Single Page Application) created with [Vue3](https://vuejs.org/guide/quick-start.html) in [Vite](https://vite.dev/guide/) with TypeScript. In addition, [Pinia](https://pinia.vuejs.org/getting-started.html) as a store manager, [VueRouter](https://router.vuejs.org/guide/) to manage the routing and history and [ViteTest](https://vitest.dev/guide/) alongside of Jest for the unit tests.
+
+Deployment link [link](https://pokedex-4ddfe.web.app/) with [FirebaseCLI](https://firebase.google.com/docs/cli)
+
+## Content
+
+This proyecto has been developed and deployed as part of a technical challenge in which I had to develop a SPA with Vue3. To showcase my knowledge on REST API management I used the [PokeAPI](https://pokeapi.co/docs/v2#pokemon) as my database. This app has been heavily inspired on the Pokedex from Pokemon videogames and has followed a Jira design from it.
+
+- SPA deployed with Vue3 on the FrontEnd.
+- Pinia was used on the state managemnt.
+- TailwindCSS as a CSS framework and website styles and responsiveness.
+- Data fetching from PokeAPI, the infinite-scroll, details, descriptionsand types.
+- Unit testing with Jest and Vite Test.
+- Firebase to manage the deployment.
+- GitFlow with [Semantic Commit](https://gist.github.com/joshbuchea/6f47e86d2510bce28f8e7f42ae84c716) for the git commands.
+
+### Multimedia
+
+<br />
+
+#### Home Desktop
+
+![home-page-desktop](./src/assets/Screenshot_home_desktop.png)
+
+<br />
+
+#### Home Mobile
+
+![home-page-mobile](./src/assets/Screenshot_home_mobile.png)
+
+<br />
+
+#### Pokedex Desktop
+
+![pokedex-page-desktop](./src/assets/Screenshot_pokedex_desktop.png)
+
+<br />
+
+#### Pokedex Mobile
+
+![pokedex-page-mobile](./src/assets/Screenshot_pokedex_mobile.png)
+
+<br />
+
+#### Search Desktop
+
+![search-page-desktop](./src/assets/Screenshot_search_desktop.png)
+
+<br />
+
+#### Search Mobile
+
+![search-page-mobile](./src/assets/Screenshot_search_mobile.png)
+
+<br />
+
+#### Favorites Desktop
+
+![favorites-page-desktop](./src/assets/Screenshot_favorites_desktop.png)
+
+<br />
+
+#### Favorites Mobile
+
+![favorites-page-mobile](./src/assets/Screenshot_favorites_mobile.png)
+
+<br />
+
+#### Details Desktop
+
+![details-page-desktop](./src/assets/Screenshot_details_desktop.png)
+
+<br />
+
+#### Details Mobile
+
+![details-page-mobile](./src/assets/Screenshot_details_mobile.png)
+
+<br />
+
+#### Lost Page Desktop
+
+![lost-page-desktop](./src/assets/Screenshot_lost_desktop.png)
+
+<br />
+
+#### Lost Page Mobile
+
+![lost-page-mobile](./src/assets/Screenshot_lost_mobile.png)
+
+<br />
 
 ## Recommended IDE Setup
 
 [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
 
-## Type Support for `.vue` Imports in TS
+## Setup / Instalation
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+Clone this repo from `master` branch
 
-## Customize configuration
+Then execute on your terminal:
 
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
+```
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+### Locally compile for development
 
-```sh
-npm run dev
+```
+npm run serve
 ```
 
-### Type-Check, Compile and Minify for Production
+### App compilation for produccion on `dist` folder
 
-```sh
+```
 npm run build
 ```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+### Run the tests
 
-```sh
-npm run test:unit
 ```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
+npm run test:unit
 ```
