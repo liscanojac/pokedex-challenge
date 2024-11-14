@@ -18,7 +18,12 @@ export const apiService = {
     const response = await fetch(url)
 
     if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`)
+      console.error(`Response status: ${response.status}`)
+      return {
+        success: false,
+        results: [],
+        nextPage: false,
+      }
     }
 
     const data = await response.json()

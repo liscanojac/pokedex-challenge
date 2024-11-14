@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { apiService } from '@/services/api.service'
 
 function mockFetchSuccess() {
@@ -36,6 +36,9 @@ function mockFetchFailure(status = 404) {
 }
 
 describe('apiService', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
   it('testing pokemons response', async () => {
     mockFetchSuccess()
     const data = await apiService.fetchPokemons(0)
@@ -60,12 +63,25 @@ describe('apiService', () => {
     })
   })
 
-  it('testing failed response', async () => {
+  it('testing failed response console error message', async () => {
+    const consoleSpy = vi.spyOn(console, 'error')
     mockFetchFailure()
 
-    await expect(apiService.fetchPokemons(0)).rejects.toThrow(
-      'Response status: 404',
-    )
+    await apiService.fetchPokemons(0)
+
+    expect(consoleSpy).toHaveBeenCalledWith('Response status: 404')
+  })
+
+  it('testing failed response data', async () => {
+    mockFetchFailure()
+
+    const data = await apiService.fetchPokemons(0)
+
+    expect(data).toEqual({
+      success: false,
+      results: [],
+      nextPage: false,
+    })
   })
 
   it('testing getIdFromUrl', () => {
